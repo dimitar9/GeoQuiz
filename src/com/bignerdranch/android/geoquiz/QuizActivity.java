@@ -3,12 +3,14 @@ package com.bignerdranch.android.geoquiz;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +18,12 @@ public class QuizActivity extends ActionBarActivity {
 
 //    private Button mTrueButton;
 //    private Button mFalseButton;
+	
+	private static final String TAG ="QuizActivity";
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
 
 
@@ -30,6 +35,35 @@ public class QuizActivity extends ActionBarActivity {
         }
     }
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		Log.d(TAG, "onStart() called");
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d(TAG, "onPause() called");
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d(TAG, "onResume() called");
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
+		Log.d(TAG, "onStop() called");
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, "onDestroy() called");
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,7 +90,8 @@ public class QuizActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
-    	private Button mNextButton;
+    	private ImageButton mNextButton;
+    	private ImageButton mPreviousButton;
     	private TextView mQuestionTextView;
     	private TrueFalse[] mQuestionBank = new TrueFalse[]{
     		new TrueFalse(R.string.question_oceans,true),	
@@ -109,7 +144,7 @@ public class QuizActivity extends ActionBarActivity {
             
             mQuestionTextView = (TextView) rootView.findViewById(R.id.question_text_view);
             
-            mNextButton = (Button) rootView.findViewById(R.id.next_button);
+            mNextButton = (ImageButton) rootView.findViewById(R.id.next_button);
             mNextButton.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -118,7 +153,17 @@ public class QuizActivity extends ActionBarActivity {
 					updateQuestion();
 				}
 			});
-
+            mPreviousButton = (ImageButton) rootView.findViewById(R.id.previous_button);
+            mPreviousButton.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if(mCurrentIndex==0)
+						mCurrentIndex = mQuestionBank.length;
+					mCurrentIndex = (mCurrentIndex -1) % mQuestionBank.length;
+					updateQuestion();
+				}
+			});
             return rootView;
         }
     }
