@@ -1,8 +1,11 @@
 package com.bignerdranch.android.geoquiz;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +24,17 @@ public class QuizActivity extends ActionBarActivity {
 //    private Button mFalseButton;
 	
 	private static final String TAG ="QuizActivity";
+	@SuppressLint("NewApi")
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
+        
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+	        android.app.ActionBar actionBar =getActionBar();
+	        actionBar.setSubtitle("Bodies for Water");
+        }
 
 
         
